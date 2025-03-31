@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification Code</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .header img {
+            width: 100px;
+        }
+        .message {
+            text-align: center;
+        }
+        .code {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 20px 0;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 8px;
+            color: #333333;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #888888;
+            text-align: center;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="message">
+        <p>Hello, <b>{{.Name}}</b>,</p>
+        <p>Please use the code below to confirm your account:</p>
+        <div class="code">{{.Code}}</div>
+        <p>This code will expire in <b>{{.Time}}</b> minutes.</p>
+        <p>If you did not request this code, <a href="#">contact us</a>.</p>
+    </div>
+    <div class="footer">
+        <p>Delivered to: {{.Email}}</p>
+    </div>
+</div>
+</body>
+</html>

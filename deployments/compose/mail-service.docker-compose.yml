@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+
+  mail_service:
+    build:
+      context: ../..
+      dockerfile: ./deployments/docker/mail-service.dockerfile
+    environment:
+      LOCAL: ${LOCAL}
+      NAME: ${NAME}
+      ADDRESS: ${ADDRESS}
+      GRPC_PORT: ${GRPC_PORT}
+      START_TIMEOUT: ${START_TIMEOUT}
+      SHUTDOWN_TIMEOUT: ${SHUTDOWN_TIMEOUT}
+      CONSUL_URL: ${CONSUL_URL}
+      RABBIT_URL: ${RABBIT_URL}
+    networks:
+      - bw_mail-net
+      - bw_gateway-net
+    depends_on:
+      - mailhog
+      - rabbit
+
+  mail_rabbit:
+    container_name: rabbits
+    image: rabbitmq:4-management
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+    volumes:
+      - bw_mail_rabbit_data:/var/lib/rabbitmq
+    ports:
+      - ${RABBITMQ_PORT}
+      - ${RABBITMQ_WEB_PORT}:${RABBITMQ_WEB_PORT}
+    networks:
+      - bw_mail-net
+
+  mail_mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog
+    ports:
+      - ${MAILHOG_PORT}:1025
+      - ${MAILHOG_WEB_PORT}:8025
+    networks:
+      - bw_mail-net
+
+networks:
+  bw_mail-net:
+
+volumes:
+  bw_mail_rabbit_data:
