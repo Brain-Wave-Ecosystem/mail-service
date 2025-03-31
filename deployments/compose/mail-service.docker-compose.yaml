@@ -14,13 +14,13 @@ services:
       START_TIMEOUT: ${START_TIMEOUT}
       SHUTDOWN_TIMEOUT: ${SHUTDOWN_TIMEOUT}
       CONSUL_URL: ${CONSUL_URL}
-      RABBIT_URL: ${RABBIT_URL}
+      RABBIT_URL: amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@mail_rabbit:${RABBITMQ_PORT}
     networks:
       - bw_mail-net
       - bw_gateway-net
     depends_on:
-      - mailhog
-      - rabbit
+      - mail_mailhog
+      - mail_rabbit
 
   mail_rabbit:
     container_name: rabbits
@@ -46,6 +46,7 @@ services:
       - bw_mail-net
 
 networks:
+  bw_gateway-net:
   bw_mail-net:
 
 volumes:
